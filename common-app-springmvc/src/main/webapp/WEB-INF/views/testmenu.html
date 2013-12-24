@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" href="../resources/js/jquery.treeview.css" />
+<title>Insert title here</title>
+</head>
+<body>
+<ul id="menu" class="treeview"></ul>
+
+<script src="../resources/js/jquery.js"></script>
+<script src="../resources/js/jquery.treeview.js"></script>
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+	var menuList = [
+{"parent":null,"path":"/共通","menuId":"共通","url":"",
+	"childMenu":[{"parent":null,"path":"/共通/管理","menuId":"管理","url":"",
+		"childMenu":[
+			{"parent":null,"path":"/共通/管理/ユーザマスタメンテ","menuId":"ユーザマスタメンテ","url":"../mntMUser/","childMenu":[]},
+			{"parent":null,"path":"/共通/管理/レベル３－２","menuId":"レベル３－２","url":"",
+				"childMenu":[{"parent":null,"path":"/共通/管理/レベル３－２/レベル４－１","menuId":"レベル４－１","url":"","childMenu":[]},
+							 {"parent":null,"path":"/共通/管理/レベル３－２/レベル４－２","menuId":"レベル４－２","url":"","childMenu":[]},
+							 {"parent":null,"path":"/共通/管理/レベル３－２/レベル４－３","menuId":"レベル４－３","url":"","childMenu":[]},
+							 {"parent":null,"path":"/共通/管理/レベル３－２/レベル４－４","menuId":"レベル４－４","url":"","childMenu":[]},
+							 {"parent":null,"path":"/共通/管理/レベル３－２/レベル４－５","menuId":"レベル４－５","url":"","childMenu":[]}]
+			},
+			{"parent":null,"path":"/共通/管理/レベル３－３","menuId":"レベル３－３","url":"","childMenu":[]}]},
+		{"parent":null,"path":"/共通/レベル２－２","menuId":"レベル２－２","url":"",
+			"childMenu":[{"parent":null,"path":"/共通/レベル２－２/レベル３－４","menuId":"レベル３－４","url":"","childMenu":[]},
+						 {"parent":null,"path":"/共通/レベル２－２/レベル３－５","menuId":"レベル３－５","url":"","childMenu":[]},
+						 {"parent":null,"path":"/共通/レベル２－２/レベル３－６","menuId":"レベル３－６","url":"","childMenu":[]}]},
+		{"parent":null,"path":"/共通/レベル２－３","menuId":"レベル２－３","url":"","childMenu":[]},
+		{"parent":null,"path":"/共通/レベル２－４","menuId":"レベル２－４","url":"","childMenu":[]},
+		{"parent":null,"path":"/共通/レベル２－５","menuId":"レベル２－５","url":"","childMenu":[]}]}]
+;
+
+	function writeMenuList(data, elm) {
+		for (var i in data) {
+			if (data[i].childMenu.length > 0) {
+				var ul = $("<ul></ul>");
+				var li = $("<li>" + data[i].menuId + "</li>");
+				writeMenuList(data[i].childMenu, ul);
+				li.append(ul);
+				elm.append(li);
+				console.log("ul:" + data[i].path);
+			} else {
+				elm.append('<li><a href="' + data[i].url + '" target="_blank" "width=1024,height=800">' + data[i].menuId + '</a></li>');
+				console.log("li:" + data[i].path);
+			}
+		}
+	};
+
+	writeMenuList(menuList, $("#menu"));
+	$("#menu").treeview();
+//    $("#menu").bind("click", $("#menu").treeview);
+//    setTimeout(function(){$("#menu").treeview();},0);
+});
+
+</script>
+
+</body>
+</html>

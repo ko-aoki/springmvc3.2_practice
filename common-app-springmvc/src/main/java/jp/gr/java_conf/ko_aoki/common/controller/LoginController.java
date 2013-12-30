@@ -5,7 +5,6 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
-import jp.gr.java_conf.ko_aoki.common.domain.MUserExample;
 import jp.gr.java_conf.ko_aoki.common.form.LoginForm;
 import jp.gr.java_conf.ko_aoki.common.service.LoginService;
 
@@ -67,11 +66,6 @@ public class LoginController {
 	@RequestMapping(method=RequestMethod.POST)
 	public String login(
 			@Valid LoginForm form, Errors errors) {
-
-		MUserExample mUserExample = new MUserExample();
-		mUserExample.createCriteria()
-		.andUserIdEqualTo(form.getUserId())
-		.andPasswordEqualTo(form.getPwd());
 
 		Map<String,String> prm = new HashMap<String,String>();
 		prm.put("userId", form.getUserId());

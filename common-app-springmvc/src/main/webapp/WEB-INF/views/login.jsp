@@ -22,17 +22,17 @@
 				</c:forEach>
 			</ul>
 		</c:if>
-	</spring:hasBindErrors>
-	<spring:bind path="loginForm.userId">
-		<c:if test="${status.errors.fieldErrorCount > 0}">
-			ユーザID
-			<c:forEach items="${status.errorMessages}" var="error">
-				<li><span class="error">
-					${error}
-				</span></li>
+		<c:if test="${errors.fieldErrorCount > 0}">
+			<c:forEach items="${errors.fieldErrors}" var="error">
+				<li>
+					<span class="error">
+						<spring:message code="${error.field}"/>は、
+						<spring:message message="${error}"/>
+					</span>
+				</li>
 			</c:forEach>
 		</c:if>
-	</spring:bind>
+	</spring:hasBindErrors>
 </div>
 
 <form:form modelAttribute="loginForm" action="login" method="post">

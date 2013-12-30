@@ -16,6 +16,80 @@
         END_DATE
   </select>
 
+<!--
+  <resultMap id="MntMUsertMap" type="jp.gr.java_conf.ko_aoki.common.bean.MntMUserBean" >
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="USER_NM" property="userNm" jdbcType="VARCHAR" />
+    <result column="P_DEPT_ID" property="pDeptId" jdbcType="VARCHAR" />
+    <result column="P_DEPT_NM" property="pDeptNm" jdbcType="VARCHAR" />
+    <result column="DEPT_ID" property="deptId" jdbcType="VARCHAR" />
+    <result column="DEPT_NM" property="deptNm" jdbcType="VARCHAR" />
+    <result column="ROLE_ID" property="roleId" jdbcType="VARCHAR" />
+    <result column="ROLE_NM" property="roleNm" jdbcType="VARCHAR" />
+    <result column="START_DATE" property="startDate" jdbcType="CHAR" />
+    <result column="END_DATE" property="endDate" jdbcType="CHAR" />
+  </resultMap>
+-->
+
+  <select id="selectMntMUserList" resultType="jp.gr.java_conf.ko_aoki.common.bean.MntMUserBean" parameterType="map">
+    select
+    U.USER_ID as userId,
+    U.USERNM_SEI || ' ' || U.USERNM_MEI as userNm,
+    D.DEPT_ID_1 as pDeptId,
+    D.DEPT_NM_1 as pDeptNm,
+    U.DEPT_ID as deptId,
+    D.DEPT_NM_2 as deptNm,
+    U.ROLE_ID as roleId,
+    R.ROLE_NM as roleNm,
+    START_DATE as startDate,
+    END_DATE as endDate
+    from
+    M_USER U left outer join
+    (
+    select A.DEPT_ID as DEPT_ID_1, A.DEPT_NM as DEPT_NM_1 ,B.DEPT_ID as DEPT_ID_2, B.DEPT_NM as DEPT_NM_2
+    from M_DEPT A, M_DEPT B
+	where
+    A.DEPT_ID = B.P_DEPT_ID
+    and
+    A.P_DEPT_ID = '9999' and
+    A.START_DATE   <![CDATA[<=]]> #{targetDate} and
+    A.END_DATE <![CDATA[>=]]> #{targetDate} and
+    B.START_DATE <![CDATA[<=]]> #{targetDate} and
+    B.END_DATE <![CDATA[>=]]> #{targetDate}
+    union all
+    select '' as DEPT_ID_1, '' as DEPT_NM_1 ,A.DEPT_ID as DEPT_ID_2, A.DEPT_NM as DEPT_NM_2
+    from
+    M_DEPT A
+	where
+    A.P_DEPT_ID = '9999' and
+    A.START_DATE <![CDATA[<=]]> #{targetDate} and
+    A.END_DATE <![CDATA[>=]]> #{targetDate}
+    ) D
+    on U.DEPT_ID = D.DEPT_ID_2
+    left outer join
+    M_ROLE R
+    on
+    U.ROLE_ID = R.ROLE_ID
+	where
+    U.START_DATE <![CDATA[<=]]> #{targetDate} and
+    U.END_DATE <![CDATA[>=]]> #{targetDate}
+    <if test="userNm != null ">
+    and
+    (U.USERNM_SEI || U.USERNM_MEI) like #{userNm}
+    </if>
+    <if test="pDeptId != null ">
+    and
+    D.DEPT_ID_1 = #{pDeptId}
+    </if>
+    <if test="deptId != null ">
+    and
+    D.DEPT_ID_2 = #{deptId}
+    </if>
+    <if test="roleId != null ">
+    and
+    R.ROLE_ID = #{roleId}
+    </if>
+  </select>
 
   <resultMap id="BaseResultMap" type="jp.gr.java_conf.ko_aoki.common.domain.MUser" >
     <!--

@@ -3,18 +3,15 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>メニュー</title>
-<!--
-<link rel="stylesheet" type="text/css" href="../css/sa.css" />
- -->
-<link rel="stylesheet" href="js/jquery.treeview.css" />
+<link rel="stylesheet" href="/js/jquery.treeview.css" />
 </head>
 <body>
 <h1>メニュー</h1>
 
 <ul id="menu" class="treeview"></ul>
 
-<script src="js/jquery.js"></script>
-<script src="js/jquery.treeview.js"></script>
+<script src="/js/jquery.js"></script>
+<script src="/js/jquery.treeview.js"></script>
 
 <script type="text/javascript">
 

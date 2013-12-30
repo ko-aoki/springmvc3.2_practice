@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
 <generatorConfiguration >
-  <classPathEntry location="C:/dev/Java/ws/common-app-springmvc/target/common-app-springmvc-0.0.1-BUILD-SNAPSHOT/WEB-INF/lib/ojdbc14.jar"/>
+  <classPathEntry location="C:/dev/git_repository/springmvc3.2_practice/common-app-springmvc/target/common-app-springmvc-0.0.1-BUILD-SNAPSHOT/WEB-INF/lib/ojdbc14.jar"/>
   <context id="context1" >
     <jdbcConnection driverClass="oracle.jdbc.driver.OracleDriver" connectionURL="jdbc:oracle:thin:@localhost:1521:XE" userId="sadb" password="sadb" />
     <javaModelGenerator targetPackage="jp.gr.java_conf.ko_aoki.common.domain" targetProject="common-app-springmvc" />

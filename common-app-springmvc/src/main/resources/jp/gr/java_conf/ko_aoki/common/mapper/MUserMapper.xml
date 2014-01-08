@@ -16,21 +16,6 @@
         END_DATE
   </select>
 
-<!--
-  <resultMap id="MntMUsertMap" type="jp.gr.java_conf.ko_aoki.common.bean.MntMUserBean" >
-    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
-    <result column="USER_NM" property="userNm" jdbcType="VARCHAR" />
-    <result column="P_DEPT_ID" property="pDeptId" jdbcType="VARCHAR" />
-    <result column="P_DEPT_NM" property="pDeptNm" jdbcType="VARCHAR" />
-    <result column="DEPT_ID" property="deptId" jdbcType="VARCHAR" />
-    <result column="DEPT_NM" property="deptNm" jdbcType="VARCHAR" />
-    <result column="ROLE_ID" property="roleId" jdbcType="VARCHAR" />
-    <result column="ROLE_NM" property="roleNm" jdbcType="VARCHAR" />
-    <result column="START_DATE" property="startDate" jdbcType="CHAR" />
-    <result column="END_DATE" property="endDate" jdbcType="CHAR" />
-  </resultMap>
--->
-
   <select id="selectMntMUserList" resultType="jp.gr.java_conf.ko_aoki.common.bean.MntMUserBean" parameterType="map">
     select
     U.USER_ID as userId,

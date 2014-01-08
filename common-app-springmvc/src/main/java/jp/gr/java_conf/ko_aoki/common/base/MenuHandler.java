@@ -30,7 +30,6 @@ public class MenuHandler {
             }
             String[] menuIds = path.split("/");
             StringBuilder menuPath = new StringBuilder();
-System.out.println("createMenu       :" + path);
             for (int i=1; i < menuIds.length; i++) {
                 String menuId = menuIds[i];
                 menuPath.append("/").append(menuId);
@@ -50,7 +49,6 @@ System.out.println("createMenu       :" + path);
 
         if (list.isEmpty()) {
             list.add(menuDto);
-System.out.println("empty            :" + menuDto.getPath());
             return;
         }
 
@@ -58,20 +56,15 @@ System.out.println("empty            :" + menuDto.getPath());
             MenuBean menu = list.get(i);
             String menuDtoPath = menuDto.getPath();
             String menuDtoParentPath = menuDtoPath.substring(0, menuDtoPath.lastIndexOf("/"));
-System.out.println("menuPath         :" + menu.getPath());
-System.out.println("menuDtoPath      :" + menuDtoPath);
-System.out.println("menuDtoParentPath:" + menuDtoParentPath);
             //追加対象の親パスと検索対象のパスが一致
             if ( menuDtoParentPath.equals(menu.getPath())) {
                 //子が存在しないか、検索終了
                 if (menuDto.getChildMenu().isEmpty() || i == list.size() - 1 ) {
-System.out.println("parent           :" + menuDto.getPath());
                     menu.addChild(menuDto);
                     return;
                 }
                 //追加対象が検索対象より階層が深い
             } else if ( menuDtoPath.indexOf(menu.getPath()) > -1) {
-System.out.println("re               :" + menu.getPath());
                 addMenuList(menu.getChildMenu(),menuDto);
                 return;
             }

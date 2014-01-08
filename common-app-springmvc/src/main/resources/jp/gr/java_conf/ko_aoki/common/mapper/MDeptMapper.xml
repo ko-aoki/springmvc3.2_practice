@@ -1,6 +1,62 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="jp.gr.java_conf.ko_aoki.common.mapper.MDeptMapper" >
+
+  <select id="selectLevel1to2DeptList" resultType="jp.gr.java_conf.ko_aoki.common.bean.code.CodeDeptBean" parameterType="map">
+	SELECT
+		DEPT_ID_1 as pDeptID,
+		DEPT_NM_1 as pDeptNm,
+		DEPT_ID_2 as deptId,
+		DEPT_NM_2 as deptNm
+FROM
+(
+	SELECT A.DEPT_ID AS DEPT_ID_1, A.DEPT_NM AS DEPT_NM_1 ,B.DEPT_ID AS DEPT_ID_2, B.DEPT_NM AS DEPT_NM_2
+	FROM M_DEPT A, M_DEPT B
+	WHERE
+	A.DEPT_ID = B.P_DEPT_ID
+	AND
+	(A.P_DEPT_ID = '9999')
+	AND
+	A.START_DATE <![CDATA[<=]]> #{targetDate} AND
+	A.END_DATE <![CDATA[>=]]> #{targetDate} AND
+	B.START_DATE <![CDATA[<=]]> #{targetDate} AND
+	B.END_DATE <![CDATA[>=]]> #{targetDate}
+    <if test="pDeptId != null ">
+	AND
+	A.DEPT_ID LIKE #{pDeptId}
+	</if>
+    <if test="pDeptNm != null ">
+	AND
+	A.DEPT_NM LIKE #{pDeptNm}
+	</if>
+    <if test="deptId != null ">
+	AND
+	B.DEPT_ID LIKE #{deptId}
+	</if>
+    <if test="deptNm != null ">
+	AND
+	B.DEPT_NM LIKE #{deptNm}
+	</if>
+	UNION ALL
+	SELECT '' AS DEPT_ID_1, '' AS DEPT_NM_1 ,DEPT_ID AS DEPT_ID_2, DEPT_NM AS DEPT_NM_2
+	FROM M_DEPT
+	WHERE
+	P_DEPT_ID = '9999'
+	AND
+	START_DATE <![CDATA[<=]]> #{targetDate} AND
+	END_DATE <![CDATA[>=]]> #{targetDate}
+    <if test="deptId != null ">
+	AND
+	DEPT_ID LIKE #{deptId}
+	</if>
+    <if test="deptNm != null ">
+	AND
+	DEPT_NM LIKE #{deptNm}
+	</if>
+)
+	ORDER BY DEPT_ID_1,DEPT_ID_2
+  </select>
+
   <resultMap id="BaseResultMap" type="jp.gr.java_conf.ko_aoki.common.domain.MDept" >
     <!--
       WARNING - @mbggenerated

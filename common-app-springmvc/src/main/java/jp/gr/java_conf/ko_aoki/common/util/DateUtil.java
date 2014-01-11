@@ -2,6 +2,7 @@ package jp.gr.java_conf.ko_aoki.common.util;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class DateUtil {
 
@@ -21,4 +22,9 @@ public class DateUtil {
         }
     }
 
+    public static String getFormatCurDateString() {
+	    Date date = new Date();
+	    SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+	    return sdf.format(date);
+    }
 }

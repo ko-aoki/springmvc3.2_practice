@@ -2,13 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="jp.gr.java_conf.ko_aoki.common.mapper.MDeptMapper" >
 
-  <select id="selectLevel1to2DeptList" resultType="jp.gr.java_conf.ko_aoki.common.bean.code.CodeDeptBean" parameterType="map">
-	SELECT
-		DEPT_ID_1 as pDeptID,
-		DEPT_NM_1 as pDeptNm,
-		DEPT_ID_2 as deptId,
-		DEPT_NM_2 as deptNm
-FROM
+<sql id="selectLevel1to2DeptListSQL" >
 (
 	SELECT A.DEPT_ID AS DEPT_ID_1, A.DEPT_NM AS DEPT_NM_1 ,B.DEPT_ID AS DEPT_ID_2, B.DEPT_NM AS DEPT_NM_2
 	FROM M_DEPT A, M_DEPT B
@@ -54,8 +48,25 @@ FROM
 	DEPT_NM LIKE #{deptNm}
 	</if>
 )
-	ORDER BY DEPT_ID_1,DEPT_ID_2
-  </select>
+</sql>
+<select id="selectCountLevel1to2Dept" resultType="int" parameterType="map">
+SELECT
+    count(*) as cnt
+FROM
+    <include refid="selectLevel1to2DeptListSQL" />
+</select>
+
+<select id="selectLevel1to2DeptList" resultType="jp.gr.java_conf.ko_aoki.common.bean.code.CodeDeptBean" parameterType="map">
+SELECT
+	DEPT_ID_1 as pDeptID,
+	DEPT_NM_1 as pDeptNm,
+	DEPT_ID_2 as deptId,
+	DEPT_NM_2 as deptNm
+FROM
+    <include refid="selectLevel1to2DeptListSQL" />
+WHERE rownum BETWEEN #{page.startNum} AND #{page.endNum}
+ORDER BY DEPT_ID_1,DEPT_ID_2
+</select>
 
   <resultMap id="BaseResultMap" type="jp.gr.java_conf.ko_aoki.common.domain.MDept" >
     <!--

@@ -1,8 +1,6 @@
 package jp.gr.java_conf.ko_aoki.common.controller;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +8,7 @@ import java.util.Map;
 import jp.gr.java_conf.ko_aoki.common.bean.MntMUserBean;
 import jp.gr.java_conf.ko_aoki.common.form.MntMUserForm;
 import jp.gr.java_conf.ko_aoki.common.service.MntMUserService;
+import jp.gr.java_conf.ko_aoki.common.util.DateUtil;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,7 +68,7 @@ public class MntMUserController {
 		if (StringUtils.isNotEmpty(form.getUserNm())) {
 			prm.put("userNm", "%" + form.getUserNm() + "%");
 		}
-		prm.put("targetDate",getFormatCurDateString());
+		prm.put("targetDate", DateUtil.getFormatCurDateString());
 		if (StringUtils.isNotEmpty(form.getDeptId1())) {
 			prm.put("pDeptId", form.getDeptId1());
 		}
@@ -99,12 +98,6 @@ public class MntMUserController {
 		mav.getModelMap().addAttribute(FORM_NAME, form);
 		return mav;
 	}
-
-    private String getFormatCurDateString() {
-	    Date date = new Date();
-	    SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-	    return sdf.format(date);
-    }
 
     //	@RequestMapping(method=RequestMethod.POST)
 //	public String find(

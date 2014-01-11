@@ -11,10 +11,11 @@ public class PageBuilderTest {
 	@Test
 	public void testBuild_1() {
 		PageBuilder pb = new PageBuilder();
-		PageBean bean = pb.build(1, 10, 100, 5);
-		assertThat(bean.getDispStartPage(), is(1));
-		assertThat(bean.getDispEndPage(), is(5));
-		assertThat(bean.getStartNum(), is(1));
+		PageBean bean;
+//		bean = pb.build(1, 10, 100, 5);
+//		assertThat(bean.getDispStartPage(), is(1));
+//		assertThat(bean.getDispEndPage(), is(5));
+//		assertThat(bean.getStartNum(), is(1));
 
 		bean = pb.build(2, 10, 100, 5);
 		assertThat(bean.getDispStartPage(), is(1));
@@ -122,4 +123,14 @@ public class PageBuilderTest {
 		assertThat(bean.getDispEndPage(), is(11));
 		assertThat(bean.getStartNum(), is(101));
 	}
+
+	@Test
+	public void testBuild_3() {
+		PageBuilder pb = new PageBuilder();
+		PageBean bean = pb.build(1, 5, 8, 3);
+		assertThat(bean.getDispStartPage(), is(1));
+		assertThat(bean.getDispEndPage(), is(2));
+		assertThat(bean.getStartNum(), is(1));
+	}
+
 }

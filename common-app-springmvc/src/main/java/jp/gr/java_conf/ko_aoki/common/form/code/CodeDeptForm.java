@@ -3,13 +3,15 @@ package jp.gr.java_conf.ko_aoki.common.form.code;
 import java.io.Serializable;
 import java.util.List;
 
+import jp.gr.java_conf.ko_aoki.common.base.bean.PageBean;
+
 public class CodeDeptForm implements Serializable {
 
 	/** serialVersionUID */
 	private static final long serialVersionUID = 1L;
 
-	/** ページ番号 */
-    private Integer pageNumber = 0;
+	/** ページ情報 */
+	private PageBean page;
 	/** 親部門ID */
     private String pDeptId;
 	/** 親部門名称 */
@@ -98,19 +100,19 @@ public class CodeDeptForm implements Serializable {
     }
 
 	/**
-	 * ページ番号を取得します。
-	 * @return ページ番号
+	 * ページ情報を取得します。
+	 * @return ページ情報
 	 */
-	public Integer getPageNumber() {
-	    return pageNumber;
+	public PageBean getPage() {
+	    return page;
 	}
 
 	/**
-	 * ページ番号を設定します。
-	 * @param pageNumber ページ番号
+	 * ページ情報を設定します。
+	 * @param page ページ情報
 	 */
-	public void setPageNumber(Integer pageNumber) {
-	    this.pageNumber = pageNumber;
+	public void setPage(PageBean page) {
+	    this.page = page;
 	}
 
 	/**

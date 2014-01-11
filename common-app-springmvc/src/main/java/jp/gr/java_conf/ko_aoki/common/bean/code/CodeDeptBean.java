@@ -12,6 +12,7 @@ public class CodeDeptBean implements Serializable {
 	private String deptId;
 	/** 部門名称 */
 	private String deptNm;
+
 	/**
 	 * 親部門IDを取得します。
 	 * @return 親部門ID

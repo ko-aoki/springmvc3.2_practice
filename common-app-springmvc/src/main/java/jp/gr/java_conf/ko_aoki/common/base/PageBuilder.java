@@ -24,9 +24,15 @@ public class PageBuilder {
 	private void buildBaseParts(int curPage, int numByPage, int totalNum) {
 
 		this.page = new PageBean();
-		this.page.setCurPage(curPage);
 		this.page.setNumByPage(numByPage);
 		this.page.setTotalNum(totalNum);
+
+		int totalPage = (int) Math.ceil((double)totalNum / (double)numByPage);
+		//合計ページより現在ページが大きかったら合計ページ
+		if (curPage > totalPage) {
+			curPage = totalPage;
+		}
+		this.page.setCurPage(curPage);
 
 		int startNum = (curPage - 1) * numByPage + 1;
 		int endNum;
@@ -35,7 +41,6 @@ public class PageBuilder {
 		} else {
 			endNum = startNum + numByPage - 1;
 		}
-		int totalPage = (int) Math.ceil((double)totalNum / (double)numByPage);
 
 		this.page.setStartNum(startNum);
 		this.page.setEndNum(endNum);
@@ -44,6 +49,10 @@ public class PageBuilder {
 	}
 
 	private void buildDispParts(int dispPageNum) {
+
+		if (dispPageNum > this.page.getTotalPage()) {
+			dispPageNum = this.page.getTotalPage();
+		}
 
 		int dispHalf = dispPageNum / 2;
 		int dispHead = dispHalf;

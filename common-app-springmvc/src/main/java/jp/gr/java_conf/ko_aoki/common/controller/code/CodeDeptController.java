@@ -49,10 +49,48 @@ public class CodeDeptController {
 	}
 
 	// ③post で送られた場合
-	@RequestMapping(method=RequestMethod.POST)
+	@RequestMapping(method=RequestMethod.POST, params="find")
 	public ModelAndView find(
 			@Valid CodeDeptForm form, 	BindingResult bindingResult) {
 
+		PageBean pb = new PageBean();
+		pb.setCurPage(1);
+		form.setPage(pb);
+		List<CodeDeptForm.MeiCodeDeptForm> recs = findDeptList(form);
+		form.setMei(recs);
+
+		if(bindingResult.hasErrors()) {
+			bindingResult.reject("error.message");
+			ModelAndView mav = new ModelAndView();
+			mav.getModel().putAll(bindingResult.getModel());
+			return mav;
+		}
+
+		ModelAndView mav = new ModelAndView();
+		mav.getModelMap().addAttribute(FORM_NAME, form);
+		return mav;
+	}
+
+	@RequestMapping(params="pageJump")
+	public ModelAndView pageJump(
+			@Valid CodeDeptForm form, 	BindingResult bindingResult) {
+
+		List<CodeDeptForm.MeiCodeDeptForm> recs = findDeptList(form);
+		form.setMei(recs);
+
+		if(bindingResult.hasErrors()) {
+			bindingResult.reject("error.message");
+			ModelAndView mav = new ModelAndView();
+			mav.getModel().putAll(bindingResult.getModel());
+			return mav;
+		}
+
+		ModelAndView mav = new ModelAndView();
+		mav.getModelMap().addAttribute(FORM_NAME, form);
+		return mav;
+	}
+
+	private List<CodeDeptForm.MeiCodeDeptForm> findDeptList(CodeDeptForm form) {
 		Map<String,Object> prm = new HashMap<String,Object>();
 		prm.put("targetDate", DateUtil.getFormatCurDateString());
 		if (StringUtils.isNotEmpty(form.getDeptId())) {
@@ -70,11 +108,11 @@ public class CodeDeptController {
 
 		int cnt = codeDeptService.getmDeptMapper().selectCountLevel1to2Dept(prm);
 		PageBuilder pb = new PageBuilder();
-		PageBean page = pb.build(1, 5, cnt, 3);
-		form.setPage(page);
+		PageBean page = pb.build(form.getPage().getCurPage(), 5, cnt, 3);
 		prm.put("page", page);
 		List<CodeDeptBean> list = codeDeptService.getmDeptMapper().selectLevel1to2DeptList(prm);
 
+		form.setPage(page);
 		List<CodeDeptForm.MeiCodeDeptForm> recs = new ArrayList<CodeDeptForm.MeiCodeDeptForm>();
 		for (CodeDeptBean m : list) {
             CodeDeptForm.MeiCodeDeptForm rec = form.new MeiCodeDeptForm();
@@ -84,18 +122,7 @@ public class CodeDeptController {
             rec.setDeptNm(m.getDeptNm());
             recs.add(rec);
 		}
-		form.setMei(recs);
-
-		if(bindingResult.hasErrors()) {
-			bindingResult.reject("error.message");
-			ModelAndView mav = new ModelAndView();
-			mav.getModel().putAll(bindingResult.getModel());
-			return mav;
-		}
-
-		ModelAndView mav = new ModelAndView();
-		mav.getModelMap().addAttribute(FORM_NAME, form);
-		return mav;
+		return recs;
 	}
 
 }

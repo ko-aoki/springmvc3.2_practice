@@ -3,7 +3,6 @@
 <mapper namespace="jp.gr.java_conf.ko_aoki.common.mapper.MDeptMapper" >
 
 <sql id="selectLevel1to2DeptListSQL" >
-(
 	SELECT A.DEPT_ID AS DEPT_ID_1, A.DEPT_NM AS DEPT_NM_1 ,B.DEPT_ID AS DEPT_ID_2, B.DEPT_NM AS DEPT_NM_2
 	FROM M_DEPT A, M_DEPT B
 	WHERE
@@ -47,13 +46,15 @@
 	AND
 	DEPT_NM LIKE #{deptNm}
 	</if>
-)
 </sql>
+
 <select id="selectCountLevel1to2Dept" resultType="int" parameterType="map">
 SELECT
     count(*) as cnt
 FROM
+(
     <include refid="selectLevel1to2DeptListSQL" />
+)
 </select>
 
 <select id="selectLevel1to2DeptList" resultType="jp.gr.java_conf.ko_aoki.common.bean.code.CodeDeptBean" parameterType="map">
@@ -63,8 +64,13 @@ SELECT
 	DEPT_ID_2 as deptId,
 	DEPT_NM_2 as deptNm
 FROM
+(
+SELECT  ROW_NUMBER() OVER (ORDER BY DEPT_ID_1,DEPT_ID_2) RNO, A.* FROM
+	(
     <include refid="selectLevel1to2DeptListSQL" />
-WHERE rownum BETWEEN #{page.startNum} AND #{page.endNum}
+	) A
+)
+WHERE RNO BETWEEN #{page.startNum} AND #{page.endNum}
 ORDER BY DEPT_ID_1,DEPT_ID_2
 </select>
 

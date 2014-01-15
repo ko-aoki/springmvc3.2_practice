@@ -12,7 +12,7 @@
 	<link href="<c:url value="/css/common-app.css" />" rel="stylesheet"  type="text/css" />
 </head>
 <body>
-
+<c:set var="pageId" value="code/codeDept" />
 <h1 style="font-size:14px;">組織検索</h1>
 <form:form modelAttribute="codeDeptForm" action="codeDept" method="post">
 <div id="app">
@@ -51,7 +51,7 @@
         		</table>
 				<button type="submit" name="find">検索</button>
 
-				<tags:page page="${codeDeptForm.page}" />
+				<tags:page pageId="${pageId}" pageInfo="${codeDeptForm.page}" />
         		<table border="1">
 					<thead>
 						<tr>

@@ -27,6 +27,11 @@ public class PageBuilder {
 		this.page.setNumByPage(numByPage);
 		this.page.setTotalNum(totalNum);
 
+		//1未満は1
+		if (curPage < 1) {
+			curPage = 1;
+		}
+
 		int totalPage = (int) Math.ceil((double)totalNum / (double)numByPage);
 		//合計ページより現在ページが大きかったら合計ページ
 		if (curPage > totalPage) {

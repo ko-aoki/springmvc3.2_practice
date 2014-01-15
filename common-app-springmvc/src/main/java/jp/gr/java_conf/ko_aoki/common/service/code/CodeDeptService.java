@@ -9,6 +9,7 @@ public interface CodeDeptService {
 	 * @return M_DEPTテーブルのマッパークラス
 	 */
 	public MDeptMapper getmDeptMapper();
+
 	/**
 	 * M_USERテーブルのマッパークラスを設定します。
 	 * @param mUserMapper M_USERテーブルのマッパークラス

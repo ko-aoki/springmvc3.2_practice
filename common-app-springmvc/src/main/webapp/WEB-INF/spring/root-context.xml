@@ -67,7 +67,9 @@
 
     <aop:config>
         <aop:advisor advice-ref="transactionAdvice"
-            pointcut="execution(* *..*Dao.*(..))" />
+            pointcut="execution(* jp.gr.java_conf.ko_aoki.common.service.*Service.*(..))" />
+        <aop:advisor advice-ref="transactionAdvice"
+            pointcut="execution(* jp.gr.java_conf.ko_aoki.common.service.code.*Service.*(..))" />
     </aop:config>
 
     <bean id="transactionManager"

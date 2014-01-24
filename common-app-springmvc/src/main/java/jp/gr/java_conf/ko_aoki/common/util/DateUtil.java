@@ -9,7 +9,7 @@ public class DateUtil {
     private DateUtil(){};
 
     public static String formatDateString(String date) {
-        if ("99999999".equals(date)) {
+        if ( date == null || "99999999".equals(date)) {
             return "";
         }
         SimpleDateFormat sdt = new SimpleDateFormat("yyyy/MM/dd");

@@ -29,15 +29,14 @@ public class MenuController {
 	@RequestMapping("/menu")
 	public String menu(Model model) {
 		Map<String,String> prm = new HashMap<String,String>();
-		List<HierarchicalMenuBean> menuList = menuService.getmMenuMapper().selectHierarchicalMenu(prm);
-		MenuHandler handler = new MenuHandler();
+		List<HierarchicalMenuBean> menuList = menuService.selectHierarchicalMenu(prm);
 		ArrayList<String> paths = new ArrayList<String>();
 		for(HierarchicalMenuBean bean : menuList) {
             String menu = bean.getPath() + (bean.getUrl() == null ? "" : ":" + bean.getUrl());
 			paths.add(menu);
 		}
 
-		ArrayList<MenuBean> menus = handler.createMenu(paths);
+		ArrayList<MenuBean> menus = MenuHandler.createMenu(paths);
 
         ObjectMapper om = new ObjectMapper();
         String menuJson = "";

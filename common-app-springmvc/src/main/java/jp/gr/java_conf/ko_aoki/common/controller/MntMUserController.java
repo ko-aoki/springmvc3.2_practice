@@ -1,16 +1,10 @@
 package jp.gr.java_conf.ko_aoki.common.controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import jp.gr.java_conf.ko_aoki.common.bean.MntMUserBean;
+import jp.gr.java_conf.ko_aoki.common.form.MeiMntMUserForm;
 import jp.gr.java_conf.ko_aoki.common.form.MntMUserForm;
+import jp.gr.java_conf.ko_aoki.common.form.MntMUserRegForm;
 import jp.gr.java_conf.ko_aoki.common.service.MntMUserService;
-import jp.gr.java_conf.ko_aoki.common.util.DateUtil;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,41 +12,36 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 /**
-* 単純なコントローラ。
+* ユーザマスタメンテ画面コントローラクラス。
 */
 @Controller
 @RequestMapping("/mntMUser")
 public class MntMUserController {
 
 	private static final String FORM_NAME = "mntMUserForm";
+
 	@Autowired
 	MntMUserService mntMUserService;
 
-	// ①command の初期オブジェクトの取得
 	@ModelAttribute(FORM_NAME)
 	public MntMUserForm createInitForm() {
 		MntMUserForm form = new MntMUserForm();
-	return form;
+		return form;
 	}
 
-	// ②初期値の設定
 	@RequestMapping(method=RequestMethod.GET)
 	public void setupForm(Model model) {
 		MntMUserForm form = createInitForm();
 		model.addAttribute(FORM_NAME, form);
 	}
 
-	// ③post で送られた場合
 	@RequestMapping(method=RequestMethod.POST, params="find")
 	public ModelAndView find(@ModelAttribute(FORM_NAME) MntMUserForm form,
 	BindingResult bindingResult) {
-//		// command の各項目のエラーチェック
-//		if(StringUtils.isEmpty(form.getUserId())) {
-//			bindingResult.rejectValue("userId", "error.required");
-//		}
-//
+
 //		// 共通のエラーチェック
 //		if(bindingResult.hasErrors()) {
 //			bindingResult.reject("error.message");
@@ -64,61 +53,62 @@ public class MntMUserController {
 			return mav;
 		}
 
-		Map<String,String> prm = new HashMap<String,String>();
-		if (StringUtils.isNotEmpty(form.getUserNm())) {
-			prm.put("userNm", "%" + form.getUserNm() + "%");
-		}
-		prm.put("targetDate", DateUtil.getFormatCurDateString());
-		if (StringUtils.isNotEmpty(form.getDeptId1())) {
-			prm.put("pDeptId", form.getDeptId1());
-		}
-		if (StringUtils.isNotEmpty(form.getDeptId1())) {
-			prm.put("deptId", form.getDeptId2());
-		}
-		if (StringUtils.isNotEmpty(form.getRoleId())) {
-			prm.put("roleId", form.getRoleId());
-		}
-		List<MntMUserBean> UserList = mntMUserService.getmUserMapper().selectMntMUserList(prm);
+		mntMUserService.selectMntMUserList(form);
 
-		List<MntMUserForm.MeiMntMUserForm> recs = new ArrayList<MntMUserForm.MeiMntMUserForm>();
-		for (MntMUserBean m : UserList) {
-            MntMUserForm.MeiMntMUserForm rec = form.new MeiMntMUserForm();
-            rec.setUserIdM(m.getUserId());
-            rec.setUserNmM(m.getUserNm());
-            rec.setpDeptIdM(m.getpDeptId());
-            rec.setpDeptNmM(m.getpDeptNm());
-            rec.setDeptIdM(m.getDeptId());
-            rec.setDeptNmM(m.getDeptNm());
-            rec.setRoleIdM(m.getRoleId());
-            rec.setRoleNmM(m.getRoleNm());
-            recs.add(rec);
-        }
-		form.setMei(recs);
 		ModelAndView mav = new ModelAndView();
 		mav.getModelMap().addAttribute(FORM_NAME, form);
 		return mav;
 	}
 
-    //	@RequestMapping(method=RequestMethod.POST)
-//	public String find(
-//			@Valid MntMUserForm form, Errors errors) {
-//
-//		MUserExample mUserExample = new MUserExample();
-//		mUserExample.createCriteria()
-//		.andUserIdEqualTo(form.getUserId())
-//		.andPasswordEqualTo(form.getPwd());
-//
-//		Map<String,String> prm = new HashMap<String,String>();
-//		prm.put("userId", form.getUserId());
-//		prm.put("password", form.getPwd());
-//		int cnt = mntMUserService.getmUserMapper().countMUserMntMUser(prm);
-//
-//		if (errors.hasErrors()) {
-//			errors.reject("error.message");
-//			return "mntMUser";
+	@RequestMapping(method=RequestMethod.POST, params="modify")
+	public ModelAndView modify(@RequestParam(value="meiCount") Integer meiCount, @ModelAttribute(FORM_NAME) MntMUserForm form,
+	BindingResult bindingResult) {
+
+//		// 共通のエラーチェック
+//		if(bindingResult.hasErrors()) {
+//			bindingResult.reject("error.message");
 //		}
-//
-//		return "mntMUser";
-//	}
+		//エラーがある場合（もとの画面へ戻る）
+		if(bindingResult.hasErrors()) {
+			ModelAndView mav = new ModelAndView();
+			mav.getModel().putAll(bindingResult.getModel());
+			return mav;
+		}
+
+		ModelAndView mav = new ModelAndView("mntMUserReg");
+		MntMUserRegForm rForm = new MntMUserRegForm();
+		MeiMntMUserForm mei = form.getMei().get(meiCount);
+		rForm.setUserId(mei.getUserIdM());
+		String[] userNm = mei.getUserNmM().split(" ");
+		rForm.setUserNmSei(userNm[0]);
+		rForm.setUserNmMei(userNm[1]);
+		rForm.setDeptId(mei.getDeptIdM());
+		rForm.setDeptNm(mei.getDeptNmM());
+		rForm.setRoleId(mei.getRoleIdM());
+		rForm.setStartDate(mei.getStartDateM());
+		rForm.setEndDate(mei.getEndDateM());
+		mav.getModelMap().addAttribute(MntMUserRegController.FORM_NAME, rForm);
+		return mav;
+	}
+
+	@RequestMapping(method=RequestMethod.POST, params="register")
+	public ModelAndView register(@ModelAttribute(FORM_NAME) MntMUserForm form,
+	BindingResult bindingResult) {
+
+//		// 共通のエラーチェック
+//		if(bindingResult.hasErrors()) {
+//			bindingResult.reject("error.message");
+//		}
+		//エラーがある場合（もとの画面へ戻る）
+		if(bindingResult.hasErrors()) {
+			ModelAndView mav = new ModelAndView();
+			mav.getModel().putAll(bindingResult.getModel());
+			return mav;
+		}
+
+		ModelAndView mav = new ModelAndView();
+		mav.getModelMap().addAttribute(FORM_NAME, form);
+		return mav;
+	}
 
 }

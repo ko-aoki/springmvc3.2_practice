@@ -8,7 +8,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>組織検索</title>
 	<script type="text/javascript" src="<c:url value="/js/jquery.js" />"></script>
-	<script type="text/javascript" src="<c:url value="/js/codeDept/codeDept.js" />"></script>
+	<script type="text/javascript" src="<c:url value="/js/code/codeDept/codeDept.js" />"></script>
 	<link href="<c:url value="/css/common-app.css" />" rel="stylesheet"  type="text/css" />
 </head>
 <body>

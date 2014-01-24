@@ -70,7 +70,7 @@ public class LoginController {
 		Map<String,String> prm = new HashMap<String,String>();
 		prm.put("userId", form.getUserId());
 		prm.put("password", form.getPwd());
-		int cnt = loginService.getmUserMapper().countMUserLogin(prm);
+		int cnt = loginService.countMUserLogin(prm);
 
 		if (errors.hasErrors()) {
 			errors.reject("error.message");

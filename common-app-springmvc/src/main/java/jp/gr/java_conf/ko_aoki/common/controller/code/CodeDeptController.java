@@ -1,20 +1,11 @@
 package jp.gr.java_conf.ko_aoki.common.controller.code;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import javax.validation.Valid;
 
-import jp.gr.java_conf.ko_aoki.common.base.PageBuilder;
 import jp.gr.java_conf.ko_aoki.common.base.bean.PageBean;
-import jp.gr.java_conf.ko_aoki.common.bean.code.CodeDeptBean;
 import jp.gr.java_conf.ko_aoki.common.form.code.CodeDeptForm;
 import jp.gr.java_conf.ko_aoki.common.service.code.CodeDeptService;
-import jp.gr.java_conf.ko_aoki.common.util.DateUtil;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -53,11 +44,11 @@ public class CodeDeptController {
 	public ModelAndView find(
 			@Valid CodeDeptForm form, 	BindingResult bindingResult) {
 
+		//ページ込みで明細取得
 		PageBean pb = new PageBean();
 		pb.setCurPage(1);
 		form.setPage(pb);
-		List<CodeDeptForm.MeiCodeDeptForm> recs = findDeptList(form);
-		form.setMei(recs);
+		this.codeDeptService.findDeptList(form);
 
 		if(bindingResult.hasErrors()) {
 			bindingResult.reject("error.message");
@@ -75,8 +66,8 @@ public class CodeDeptController {
 	public ModelAndView pageJump(
 			@Valid CodeDeptForm form, 	BindingResult bindingResult) {
 
-		List<CodeDeptForm.MeiCodeDeptForm> recs = findDeptList(form);
-		form.setMei(recs);
+		//ページ込みで明細取得
+		this.codeDeptService.findDeptList(form);
 
 		if(bindingResult.hasErrors()) {
 			bindingResult.reject("error.message");
@@ -88,41 +79,6 @@ public class CodeDeptController {
 		ModelAndView mav = new ModelAndView();
 		mav.getModelMap().addAttribute(FORM_NAME, form);
 		return mav;
-	}
-
-	private List<CodeDeptForm.MeiCodeDeptForm> findDeptList(CodeDeptForm form) {
-		Map<String,Object> prm = new HashMap<String,Object>();
-		prm.put("targetDate", DateUtil.getFormatCurDateString());
-		if (StringUtils.isNotEmpty(form.getDeptId())) {
-			prm.put("deptId", form.getDeptId());
-		}
-		if (StringUtils.isNotEmpty(form.getpDeptId())) {
-			prm.put("pDeptId", form.getpDeptId());
-		}
-		if (StringUtils.isNotEmpty(form.getpDeptNm())) {
-			prm.put("pDeptNm", "%" + form.getpDeptNm() + "%");
-		}
-		if (StringUtils.isNotEmpty(form.getDeptNm())) {
-			prm.put("deptNm", "%" + form.getDeptNm()+ "%") ;
-		}
-
-		int cnt = codeDeptService.getmDeptMapper().selectCountLevel1to2Dept(prm);
-		PageBuilder pb = new PageBuilder();
-		PageBean page = pb.build(form.getPage().getCurPage(), 5, cnt, 3);
-		prm.put("page", page);
-		List<CodeDeptBean> list = codeDeptService.getmDeptMapper().selectLevel1to2DeptList(prm);
-
-		form.setPage(page);
-		List<CodeDeptForm.MeiCodeDeptForm> recs = new ArrayList<CodeDeptForm.MeiCodeDeptForm>();
-		for (CodeDeptBean m : list) {
-            CodeDeptForm.MeiCodeDeptForm rec = form.new MeiCodeDeptForm();
-            rec.setpDeptId(m.getpDeptId());
-            rec.setpDeptNm(m.getpDeptNm());
-            rec.setDeptId(m.getDeptId());
-            rec.setDeptNm(m.getDeptNm());
-            recs.add(rec);
-		}
-		return recs;
 	}
 
 }

@@ -1,18 +1,12 @@
 package jp.gr.java_conf.ko_aoki.common.service;
 
-import jp.gr.java_conf.ko_aoki.common.mapper.MMenuMapper;
+import java.util.List;
+import java.util.Map;
+
+import jp.gr.java_conf.ko_aoki.common.bean.HierarchicalMenuBean;
 
 public interface MenuService {
 
-	/**
-	 * M_MENUテーブルのマッパークラスを取得します。
-	 * @return M_MENUテーブルのマッパークラス
-	 */
-	public MMenuMapper getmMenuMapper();
-	/**
-	 * M_MENUテーブルのマッパークラスを設定します。
-	 * @param mMenuMapper M_MENUテーブルのマッパークラス
-	 */
-	public void setmMenuMapper(MMenuMapper mMenuMapper);
+	List<HierarchicalMenuBean> selectHierarchicalMenu(Map<String,String> prm);
 
 }

@@ -1,5 +1,7 @@
 package jp.gr.java_conf.ko_aoki.common.service.impl;
 
+import java.util.Map;
+
 import jp.gr.java_conf.ko_aoki.common.mapper.MUserMapper;
 import jp.gr.java_conf.ko_aoki.common.service.LoginService;
 
@@ -11,22 +13,10 @@ public class LoginServiceImpl implements LoginService{
 
 	/** M_USERテーブルのマッパークラス */
 	@Autowired
-	private MUserMapper mUserMapper;
+	private MUserMapper mapper;
 
-	/**
-	 * M_USERテーブルのマッパークラスを取得します。
-	 * @return M_USERテーブルのマッパークラス
-	 */
-	public MUserMapper getmUserMapper() {
-	    return mUserMapper;
-	}
-
-	/**
-	 * M_USERテーブルのマッパークラスを設定します。
-	 * @param mUserMapper M_USERテーブルのマッパークラス
-	 */
-	public void setmUserMapper(MUserMapper mUserMapper) {
-	    this.mUserMapper = mUserMapper;
+	public int countMUserLogin(Map<String,String> prm) {
+		return mapper.countMUserLogin(prm);
 	}
 
 }

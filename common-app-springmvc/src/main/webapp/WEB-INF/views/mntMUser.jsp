@@ -86,28 +86,38 @@
 			<tr>
 				<td class="recUserId">
 					<span>${m.userIdM}</span>
+					<form:hidden path="mei[${s.index}].userIdM"/>
 				</td>
 				<td class="recUserNmM">
 					<span>${m.userNmM}</span>
+					<form:hidden path="mei[${s.index}].userNmM"/>
 				</td>
 				<td class="recOrg1">
 					<span>${m.pDeptNmM}</span>
+					<form:hidden path="mei[${s.index}].pDeptIdM"/>
+					<form:hidden path="mei[${s.index}].pDeptNmM"/>
 				</td>
 				<td class="recOrg2">
 					<span>${m.deptNmM}</span>
+					<form:hidden path="mei[${s.index}].deptIdM"/>
+					<form:hidden path="mei[${s.index}].deptNmM"/>
 				</td>
 				<td class="recRole">
 					<span>${m.roleNmM}</span>
+					<form:hidden path="mei[${s.index}].roleIdM"/>
+					<form:hidden path="mei[${s.index}].roleNmM"/>
 				</td>
 				<td class="recStartDate">
 					<span>${m.startDateM}</span>
+					<form:hidden path="mei[${s.index}].startDateM"/>
 				</td>
 				<td class="recEndDate">
 					<span>${m.endDateM}</span>
+					<form:hidden path="mei[${s.index}].endDateM"/>
 				</td>
 				<td class="recCmd">
-						<button type="submit" name="modify">変更</button>
-						<button type="submit" name="delete">削除</button>
+						<button type="submit" class="modify" id="modify_${s.index}">変更</button>
+						<button type="submit" class="delete" id="delete_${s.index}">削除</button>
 				</td>
 			</tr>
 			</c:forEach>

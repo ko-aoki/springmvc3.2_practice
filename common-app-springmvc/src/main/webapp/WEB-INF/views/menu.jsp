@@ -1,17 +1,18 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@page pageEncoding="UTF-8"%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>メニュー</title>
-<link rel="stylesheet" href="/js/jquery.treeview.css" />
+<link href="<c:url value="/js/jquery.treeview.css" />" rel="stylesheet"  type="text/css" />
 </head>
 <body>
 <h1>メニュー</h1>
 
 <ul id="menu" class="treeview"></ul>
 
-<script src="/js/jquery.js"></script>
-<script src="/js/jquery.treeview.js"></script>
+<script type="text/javascript" src="<c:url value="/js/jquery.js" />"></script>
+<script type="text/javascript" src="<c:url value="/js/jquery.treeview.js" />"></script>
 
 <script type="text/javascript">
 

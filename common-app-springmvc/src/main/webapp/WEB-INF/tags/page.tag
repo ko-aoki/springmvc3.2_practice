@@ -9,41 +9,22 @@
 	<span>${pageInfo.startNum}-${pageInfo.endNum}/${pageInfo.totalNum}</span>
 	<c:if test="${pageInfo.curPage > 1}">
 		<span>
-			<s:url value="/${pageId}" var="firstPageUrl">
-				<s:param name="pageJump"/>
-				<s:param name="page">1</s:param>
-			</s:url>
 			<a href="javascript:void(0)" id="firstPage">&lt;&lt;</a>
 		</span>
 		<span>
-			<s:url value="/${pageId}"  var="prePageUrl">
-				<s:param name="pageJump"/>
-				<s:param name="page">${pageInfo.curPage-1}</s:param>
-			</s:url>
 			<a href="javascript:void(0)" id="prePage">&lt;</a>
 		</span>
 	</c:if>
 	<c:forEach var="i" begin="${pageInfo.dispStartPage}" end="${pageInfo.dispEndPage}" step="1">
 		<span>
-			<s:url value="/${pageId}" var="pageUrl">
-				<s:param name="pageJump"/>
-				<s:param name="page">${i}</s:param>
-			</s:url>
 			<a href="javascript:void(0)" class="numPage" id="numPage_${i}">${i}</a>
 		</span>
 	</c:forEach>
 	<c:if test="${pageInfo.curPage < pageInfo.totalPage}">
 		<span>
-			<s:url value="/${pageId}" var="nextPageUrl">
-				<s:param name="pageJump"/>
-				<s:param name="page">${pageInfo.curPage+1}</s:param>
-			</s:url>
 			<a href="javascript:void(0)" id="nextPage">&gt;</a>
 		</span>
 		<span>
-			<s:url value="/${pageId}" var="lastPageUrl">
-				<s:param name="page">${pageInfo.totalPage}</s:param>
-			</s:url>
 			<a href="javascript:void(0)" id="lastPage">&gt;&gt;</a>
 		</span>
 	</c:if>

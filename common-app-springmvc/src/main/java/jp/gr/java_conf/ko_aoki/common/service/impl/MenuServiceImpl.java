@@ -8,9 +8,11 @@ import jp.gr.java_conf.ko_aoki.common.mapper.MMenuMapper;
 import jp.gr.java_conf.ko_aoki.common.service.MenuService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 @Service
+@Scope("prototype")
 public class MenuServiceImpl implements MenuService{
 
 	/** M_MENUテーブルのマッパークラス */

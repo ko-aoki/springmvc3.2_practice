@@ -14,9 +14,11 @@ import jp.gr.java_conf.ko_aoki.common.util.DateUtil;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 @Service
+@Scope("prototype")
 public class MntMUserServiceImpl implements MntMUserService{
 
 	/** M_USERテーブルのマッパークラス */

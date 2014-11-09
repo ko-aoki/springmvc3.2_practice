@@ -6,9 +6,11 @@ import jp.gr.java_conf.ko_aoki.common.mapper.MUserMapper;
 import jp.gr.java_conf.ko_aoki.common.service.MntMUserRegService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 @Service
+@Scope("prototype")
 public class MntMUserRegServiceImpl implements MntMUserRegService{
 
 	/** M_USERテーブルのマッパークラス */
